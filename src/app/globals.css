@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0b0820;
+  --foreground: #ece9ff;
 }
 
 @theme inline {
@@ -12,15 +12,49 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  background-image:
+    radial-gradient(60rem 40rem at 10% -10%, rgba(217, 70, 239, 0.25), transparent 60%),
+    radial-gradient(50rem 35rem at 100% 0%, rgba(34, 211, 238, 0.2), transparent 60%),
+    radial-gradient(45rem 30rem at 50% 110%, rgba(250, 204, 21, 0.12), transparent 60%);
+  background-attachment: fixed;
 }
+
+.glass {
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+}
+
+.grad-text {
+  background: linear-gradient(90deg, #f0abfc, #67e8f9 50%, #fde047);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.prose-jev h1, .prose-jev h2, .prose-jev h3 { font-weight: 700; margin: 0.9em 0 0.35em; color: #f5d0fe; }
+.prose-jev h2 { font-size: 1.1rem; }
+.prose-jev h3 { font-size: 1rem; color: #a5f3fc; }
+.prose-jev p { margin: 0.45em 0; line-height: 1.65; }
+.prose-jev ul, .prose-jev ol { margin: 0.4em 0 0.6em 1.25em; }
+.prose-jev ul { list-style: disc; }
+.prose-jev ol { list-style: decimal; }
+.prose-jev li { margin: 0.2em 0; line-height: 1.6; }
+.prose-jev strong { color: #fde68a; }
+.prose-jev code { background: rgba(255,255,255,0.08); padding: 0.1em 0.35em; border-radius: 4px; font-size: 0.88em; }
+.prose-jev pre { background: #07051a; border: 1px solid rgba(255,255,255,0.1); padding: 0.9rem; border-radius: 10px; overflow-x: auto; margin: 0.6em 0; font-size: 0.82rem; }
+.prose-jev pre code { background: none; padding: 0; }
+.prose-jev table { border-collapse: collapse; margin: 0.6em 0; font-size: 0.9em; }
+.prose-jev th, .prose-jev td { border: 1px solid rgba(255,255,255,0.15); padding: 0.35em 0.6em; }
+.prose-jev a { color: #67e8f9; text-decoration: underline; }
+
+@keyframes pulse-dot { 0%, 100% { opacity: 0.3 } 50% { opacity: 1 } }
+.dot { animation: pulse-dot 1.2s infinite; }
+.dot:nth-child(2) { animation-delay: 0.2s }
+.dot:nth-child(3) { animation-delay: 0.4s }
+
+input[type="range"] { accent-color: #e879f9; }

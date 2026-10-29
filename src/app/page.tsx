@@ -1,69 +1,76 @@
-import Image from "next/image";
+"use client";
+
+import { useState } from "react";
+import { ByokProvider, KeyButton } from "@/components/byok";
+import { Understand } from "@/components/sections/Understand";
+import { Industry } from "@/components/sections/Industry";
+import { Implement } from "@/components/sections/Implement";
+import { Lab } from "@/components/sections/Lab";
+import { Assistant } from "@/components/sections/Assistant";
+import { SOURCES } from "@/lib/knowledge";
+
+const TABS = [
+  { id: "understand", label: "Understand", icon: "🧬", el: <Understand /> },
+  { id: "industry", label: "Industry & Cost", icon: "🏭", el: <Industry /> },
+  { id: "implement", label: "Implement", icon: "🛠️", el: <Implement /> },
+  { id: "lab", label: "Hybrid Lab", icon: "⚗️", el: <Lab /> },
+  { id: "assistant", label: "AI Assistant", icon: "💬", el: <Assistant /> },
+];
 
 export default function Home() {
+  const [tab, setTab] = useState(TABS[0].id);
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <ByokProvider>
+      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0b0820]/75 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
+          <button onClick={() => setTab("understand")} className="flex items-center gap-2">
+            <span className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-fuchsia-500 via-violet-500 to-cyan-400 font-black text-black">J</span>
+            <span className="font-extrabold tracking-tight">
+              JEV <span className="grad-text">Explorer</span>
+            </span>
+          </button>
+          <KeyButton />
+        </div>
+        <nav className="mx-auto flex max-w-6xl gap-1 overflow-x-auto px-4 pb-2">
+          {TABS.map((t) => (
+            <button
+              key={t.id}
+              onClick={() => setTab(t.id)}
+              className={`shrink-0 rounded-full px-3.5 py-1.5 text-sm font-semibold transition ${
+                tab === t.id ? "bg-gradient-to-r from-fuchsia-500 to-cyan-400 text-black" : "text-white/70 hover:bg-white/10"
+              }`}
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+              {t.icon} {t.label}
+            </button>
+          ))}
+        </nav>
+      </header>
+
+      <main className="mx-auto w-full max-w-6xl flex-1 px-4 pb-16">
+        {TABS.map((t) => (
+          // keep every tab mounted so chat/lab state survives tab switches
+          <div key={t.id} hidden={tab !== t.id}>
+            {t.el}
+          </div>
+        ))}
+      </main>
+
+      <footer className="border-t border-white/10 py-6 text-xs text-white/50">
+        <div className="mx-auto max-w-6xl px-4">
+          <p>
+            Facts as of Oct 2026 from public write-ups; speed/price figures are vendor-reported. The Hybrid Lab emulates JEV with Groq — it is
+            not the TypeSafe model. Sources:{" "}
+            {SOURCES.map((s, i) => (
+              <span key={s.url}>
+                <a href={s.url} target="_blank" rel="noreferrer" className="text-cyan-300 hover:underline">
+                  {s.label}
+                </a>
+                {i < SOURCES.length - 1 ? " · " : ""}
+              </span>
+            ))}
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      </footer>
+    </ByokProvider>
   );
 }
